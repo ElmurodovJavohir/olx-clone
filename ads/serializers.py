@@ -6,6 +6,8 @@ from attribute.serializers import (
     AttributeSerializer,
     FilterAttributeSerializer,
 )
+from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+from ads.documents import AdsDocument
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -82,3 +84,11 @@ class AdsSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class AdsDocumentSerializer(DocumentSerializer):
+    class Meta:
+        """Meta options."""
+
+        document = AdsDocument
+        fields = "__all__"

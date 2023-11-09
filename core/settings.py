@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # THIRD PARTY
     "rest_framework",
+    "django_elasticsearch_dsl",
+    "django_elasticsearch_dsl_drf",
     # LOCAL
     "common",
     "attribute",
@@ -80,9 +82,16 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "olx_clone",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "localhost",
     }
 }
 
@@ -135,4 +144,21 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ]
+}
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+    "ORDERING_PARAM": "ordering",
+}
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": "http://localhost:9200/",
+    }
+}
+ELASTICSEARCH_INDEX_NAMES = {
+    "search_indexes.documents.ads": "ads",
 }
